@@ -34,5 +34,9 @@ def upload():
     audio_path = generate_tts(extracted_text)
     return jsonify({"response": extracted_text, "audio": f"/static/{os.path.basename(audio_path)}"})
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
