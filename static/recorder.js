@@ -16,24 +16,25 @@ async function startRecording() {
         const formData = new FormData();
         formData.append('file', audioBlob, 'voice.wav');
 
-        const res = await fetch("/upload", {
+        const res = await fetch("/transcribe", {
             method: "POST",
             body: formData
         });
 
         const data = await res.json();
+        document.getElementById("transcriptBox").innerText = data.transcript;
         document.getElementById("responseBox").innerText = data.response;
         document.getElementById("audioPlayer").src = data.audio;
         document.getElementById("audioPlayer").play();
     };
 
     mediaRecorder.start();
-    console.log("Recording started");
+    console.log("🎙️ Recording started...");
 }
 
 function stopRecording() {
     if (mediaRecorder) {
         mediaRecorder.stop();
-        console.log("Recording stopped");
+        console.log("🛑 Recording stopped.");
     }
 }
