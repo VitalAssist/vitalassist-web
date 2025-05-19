@@ -9,10 +9,10 @@ def generate_gpt_response(prompt):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a friendly multilingual medical assistant named VitalAssist."},
+                {"role": "system", "content": "You are a multilingual medical assistant named VitalAssist."},
                 {"role": "user", "content": prompt}
             ]
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
-        return f"Error generating response: {str(e)}"
+        return f"[ERROR] GPT failed: {str(e)}"
