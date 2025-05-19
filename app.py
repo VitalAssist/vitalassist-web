@@ -53,6 +53,8 @@ def transcribe_and_process():
     audio_path = generate_tts(reply)
     return jsonify({"transcript": transcribed_text, "response": reply, "audio": f"/static/{os.path.basename(audio_path)}"})
 
+import os
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)

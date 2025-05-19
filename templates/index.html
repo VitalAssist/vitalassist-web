@@ -65,11 +65,8 @@
       border-radius: 6px;
       min-height: 60px;
     }
-    .mode-buttons, .lang-select {
+    .mode-select, .lang-select {
       margin-bottom: 1.5rem;
-    }
-    .mode-buttons button {
-      margin-bottom: 0.5rem;
     }
     footer {
       background-color: #007a7a;
@@ -91,12 +88,30 @@
 </head>
 <body>
   <header>🫀 VitalAssist - AI Health Companion</header>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="https://i.imgur.com/GWc0Uti.png" alt="Welcome to VitalAssist" style="max-width: 80%; border-radius: 12px;" />
+    <p style="font-size: 1.2rem; color: #007a7a; margin-top: 0.5rem;">
+      Your Trusted Health Companion — Powered by Commander Tech®
+    </p>
+  </div>
+
   <main>
-    <div class="mode-buttons">
-      <label>Mode:</label>
-      <button>General</button>
-      <button>Intermediate</button>
-      <button>Doctor Mode</button>
+    <div class="mode-select">
+      <label for="modeSelect">🩺 Select Mode:</label>
+      <select id="modeSelect" onchange="toggleDoctorLevels(this.value)">
+        <option value="general">General</option>
+        <option value="doctor">Doctor</option>
+      </select>
+    </div>
+
+    <div id="doctorLevels" style="display:none; margin-top: 1rem;">
+      <label for="levelSelect">👨‍⚕️ Doctor Level:</label>
+      <select id="levelSelect">
+        <option>Basic</option>
+        <option>Intermediate</option>
+        <option>Expert</option>
+      </select>
     </div>
 
     <div class="lang-select">
@@ -140,6 +155,11 @@
       <h3>Voice Reply:</h3>
       <audio id="audioPlayer" controls></audio>
     </section>
+
+    <section style="background: #eafff0; padding: 1rem; border-radius: 8px; margin-top: 2rem;">
+      <h3>💡 Vital Tip of the Moment</h3>
+      <p id="healthTip" style="font-size: 1.05rem; margin-top: 0.5rem;"></p>
+    </section>
   </main>
 
   <footer>
@@ -154,6 +174,21 @@
   </footer>
 
   <script>
+    function toggleDoctorLevels(value) {
+      document.getElementById("doctorLevels").style.display =
+        value === "doctor" ? "block" : "none";
+    }
+
+    const tips = [
+      "Drink at least 8 glasses of water a day 💧",
+      "Get 7–8 hours of quality sleep 🛌",
+      "Wash your hands regularly to prevent infection 🧼",
+      "Take a short walk after meals to aid digestion 🚶",
+      "Limit sugar intake to maintain heart health ❤️",
+      "Laugh often — it's good for your immune system 😄"
+    ];
+    document.getElementById("healthTip").innerText = tips[Math.floor(Math.random() * tips.length)];
+
     async function sendText() {
       const text = document.getElementById("userText").value;
       const formData = new FormData();
@@ -162,8 +197,8 @@
       const res = await fetch("/process", { method: "POST", body: formData });
       const data = await res.json();
 
-      document.getElementById("transcriptBox").innerText = "";
-      document.getElementById("responseBox").innerText = data.response;
+      document.getElementById("transcriptBox").innerText = "🧍 You: " + text;
+      document.getElementById("responseBox").innerText = "🤖 VitalAssist: " + data.response;
       document.getElementById("audioPlayer").src = data.audio;
       document.getElementById("audioPlayer").play();
     }
@@ -176,8 +211,8 @@
       const res = await fetch("/upload", { method: "POST", body: formData });
       const data = await res.json();
 
-      document.getElementById("transcriptBox").innerText = "";
-      document.getElementById("responseBox").innerText = data.response;
+      document.getElementById("transcriptBox").innerText = "🧾 Extracted: " + data.extracted;
+      document.getElementById("responseBox").innerText = "🤖 VitalAssist: " + data.response;
       document.getElementById("audioPlayer").src = data.audio;
       document.getElementById("audioPlayer").play();
     }
