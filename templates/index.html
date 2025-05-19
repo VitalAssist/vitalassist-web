@@ -1,0 +1,48 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VitalAssist by Commander Tech®</title>
+    <script>
+        async function sendText() {
+            const text = document.getElementById("userText").value;
+            const formData = new FormData();
+            formData.append("text", text);
+
+            const res = await fetch("/process", { method: "POST", body: formData });
+            const data = await res.json();
+
+            document.getElementById("responseBox").innerText = data.response;
+            document.getElementById("audioPlayer").src = data.audio;
+            document.getElementById("audioPlayer").play();
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileUpload");
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            const res = await fetch("/upload", { method: "POST", body: formData });
+            const data = await res.json();
+
+            document.getElementById("responseBox").innerText = data.response;
+            document.getElementById("audioPlayer").src = data.audio;
+            document.getElementById("audioPlayer").play();
+        }
+    </script>
+</head>
+<body>
+    <h2>VitalAssist Web Interface</h2>
+    <textarea id="userText" rows="5" cols="50" placeholder="Type your question here..."></textarea><br>
+    <button onclick="sendText()">Send</button>
+
+    <h3>Or Upload PDF/Image:</h3>
+    <input type="file" id="fileUpload">
+    <button onclick="uploadFile()">Upload</button>
+
+    <h3>Response:</h3>
+    <div id="responseBox" style="white-space: pre-wrap;"></div>
+    <audio id="audioPlayer" controls></audio>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Flask==2.3.2
+edge-tts==6.1.10
+pytesseract==0.3.10
+pdfplumber==0.10.2
+PyMuPDF==1.23.22
+Pillow==10.2.0
