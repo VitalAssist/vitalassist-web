@@ -2,17 +2,18 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# No 'proxies' used here
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 def generate_gpt_response(prompt):
     try:
-        response = client.chat.completions.create(
+        chat_response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a multilingual medical assistant named VitalAssist."},
                 {"role": "user", "content": prompt}
             ]
         )
-        return response.choices[0].message.content.strip()
+        return chat_response.choices[0].message.content.strip()
     except Exception as e:
-        return f"[ERROR] GPT failed: {str(e)}"
+        return f"[GPT ERROR]: {e}"
