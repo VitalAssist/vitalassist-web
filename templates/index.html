@@ -200,6 +200,7 @@
         value === "doctor" ? "block" : "none";
     }
 
+
     const tips = [
       "Drink plenty of water to stay hydrated 💧",
       "Exercise at least 3 times a week 🏃‍♀️",
@@ -208,7 +209,14 @@
       "Eat colorful fruits and vegetables 🍎🥦",
       "Take deep breaths to reduce stress 🧘"
     ];
-    document.getElementById("healthTip").innerText = tips[Math.floor(Math.random() * tips.length)];
+
+    let currentTip = 0;
+    function rotateTip() {
+      document.getElementById("healthTip").innerText = tips[currentTip];
+      currentTip = (currentTip + 1) % tips.length;
+    }
+    rotateTip();
+    setInterval(rotateTip, 5000);
 
     async function sendText() {
       const text = document.getElementById("userText").value;
