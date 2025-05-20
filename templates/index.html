@@ -69,30 +69,39 @@
     button:hover {
       background-color: #005f5f;
     }
-    .chat-box {
-      background: #f9fdfd;
-      padding: 1rem;
-      border-radius: 14px;
-      margin-top: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .chat-entry {
-      background: linear-gradient(to right, #e3fdfd, #f1fafe);
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-left: 6px solid #00b3b3;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-    .center-image {
+    .hero-banner {
       text-align: center;
-      margin: 1rem 0;
+      padding: 2rem;
     }
-    .center-image img {
-      max-width: 85%;
-      max-height: 250px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    .hero-banner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .tip-section {
+      background: #eafff0;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+    .chat-wrapper {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: linear-gradient(to bottom right, #f4fbff, #e9f7f8);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .chat-wrapper div {
+      margin-bottom: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+    }
+    #transcriptBox {
+      background: #dcfefc;
+    }
+    #responseBox {
+      background: #f0f4ff;
     }
     footer {
       background-color: #007a7a;
@@ -114,8 +123,8 @@
 </head>
 <body>
   <header>🫀 VitalAssist – AI Health Companion by Commander Tech®</header>
-  <div class="center-image">
-    <img src="/static/commander-banner.png" alt="Welcome to VitalAssist">
+  <div class="hero-banner">
+    <img src="/static/commander-banner.png" alt="VitalAssist Hero Image">
   </div>
   <main>
     <div class="section">
@@ -160,17 +169,16 @@
       <input type="file" id="fileUpload">
       <button onclick="uploadFile()">Upload</button>
     </div>
-    <div class="chat-box">
-      <div id="chatArea" class="chat-entry">
-        <div id="transcriptBox">🧍 You: ...</div>
-        <div id="responseBox">🤖 VitalAssist: ...</div>
-        <div><label>🔊 Voice Reply:</label><br>
-        <audio id="audioPlayer" controls></audio></div>
-      </div>
-    </div>
-    <div style="background: #eafff0; padding: 1rem; border-radius: 8px; margin-top: 2rem;">
+    <div class="tip-section">
       <h3>💡 Health Tip of the Moment</h3>
-      <p id="healthTip" style="font-size: 1.05rem;"></p>
+      <p id="healthTip"></p>
+    </div>
+    <div class="chat-wrapper">
+      <div id="transcriptBox">🧍 You: ...</div>
+      <div id="responseBox">🤖 VitalAssist: ...</div>
+      <div><label>🔊 Voice Reply:</label><br>
+        <audio id="audioPlayer" controls></audio>
+      </div>
     </div>
   </main>
   <footer>
@@ -186,8 +194,8 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(() => console.log('✅ VitalAssist service worker registered'))
-        .catch(err => console.error('Service Worker registration failed:', err));
+        .then(() => console.log('✅ Service worker registered'))
+        .catch(err => console.error('SW registration failed:', err));
     }
     function toggleDoctorLevels(value) {
       document.getElementById("doctorLevels").style.display = value === "doctor" ? "block" : "none";
