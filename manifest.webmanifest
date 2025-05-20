@@ -1,0 +1,21 @@
+{
+  "name": "VitalAssist by Commander Tech",
+  "short_name": "VitalAssist",
+  "description": "Your multilingual AI health assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007a7a",
+  "icons": [
+    {
+      "src": "/static/vitalassist-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/vitalassist-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
