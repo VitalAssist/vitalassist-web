@@ -1,269 +1,219 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VitalAssist by Commander Tech®</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#007a7a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="apple-touch-icon" href="/static/vitalassist-icon.png">
-  <link rel="icon" type="image/png" href="/static/vitalassist-icon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VitalAssist by Commander Tech</title>
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="manifest.json" />
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #f4ffff, #e3f7f7);
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      color: #333;
+      background: url("background.png") no-repeat center center fixed;
+      background-size: cover;
     }
     header {
-      background-color: #007a7a;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .hero-section {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 2rem;
-      max-width: 960px;
-      margin: 1rem auto;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.85);
     }
-    .hero-text {
-      max-width: 50%;
+    header img {
+      height: 60px;
     }
-    .hero-img {
-      max-width: 40%;
+    header h1 {
+      font-size: 24px;
+      color: #333;
     }
-    .hero-img img {
-      max-width: 100%;
+    #main-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    #chat-container {
+      flex: 1;
+      min-width: 320px;
+      max-width: 700px;
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    }
+    #hero-image {
+      max-width: 300px;
       height: auto;
+      align-self: center;
     }
-    main {
-      max-width: 960px;
-      margin: 1rem auto;
-      padding: 2rem;
-      background: white;
+    .message {
+      margin-bottom: 12px;
+      padding: 12px 16px;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.08);
+      background: #f1f1f1;
     }
-    .section {
-      margin-bottom: 1.5rem;
+    .user {
+      background-color: #d2f8d2;
+      text-align: right;
     }
-    label, select, textarea, button {
-      font-size: 1rem;
+    .assistant {
+      background-color: #f0e9ff;
+      text-align: left;
     }
-    textarea {
-      width: 100%;
-      height: 100px;
-      padding: 1rem;
-      border: 1px solid #ccc;
+    #messages {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    #input-section {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    input, button, select {
+      padding: 10px;
       border-radius: 10px;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    select, input[type="file"] {
-      padding: 0.5rem;
-      border-radius: 8px;
       border: 1px solid #ccc;
-      margin-bottom: 1rem;
     }
     button {
-      background-color: #007a7a;
+      background-color: #007BFF;
       color: white;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      margin-right: 0.5rem;
       cursor: pointer;
     }
     button:hover {
-      background-color: #005f5f;
-    }
-    .tip-section {
-      background: #eafff0;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 2rem;
-    }
-    .chat-wrapper {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: linear-gradient(to bottom right, #eef9ff, #e8f5f9);
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .chat-wrapper div {
-      margin-bottom: 0.75rem;
-      padding: 0.75rem;
-      border-radius: 10px;
-    }
-    #transcriptBox {
-      background: #dcfefc;
-    }
-    #responseBox {
-      background: #f0f4ff;
+      background-color: #0056b3;
     }
     footer {
-      background-color: #007a7a;
-      color: white;
       text-align: center;
-      padding: 1.5rem;
-      margin-top: 3rem;
+      padding: 10px;
+      font-size: 14px;
+      color: #888;
     }
-    footer a {
-      color: #c9f6f6;
-      margin: 0 1rem;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
+    @media (max-width: 800px) {
+      #hero-image {
+        display: none;
+      }
     }
   </style>
-  <script src="/static/recorder.js"></script>
 </head>
-<body>
-  <header>🫀 VitalAssist – AI Health Companion by Commander Tech®</header>
-  <div class="hero-section">
-    <div class="hero-text">
-      <h2>Welcome to VitalAssist</h2>
-      <p>Your AI-powered health companion – ask, speak, or upload.</p>
-    </div>
-    <div class="hero-img">
-      <img src="/static/commander-banner-transparent.png" alt="VitalAssist Doctor Illustration">
-    </div>
-  </div>
-  <main>
-    <div class="section">
-      <label for="modeSelect">🩺 Select Mode:</label>
-      <select id="modeSelect" onchange="toggleDoctorLevels(this.value)">
+<body onload="displayStartupTip()">
+  <header>
+    <img src="logo-transparent.png" alt="VitalAssist Logo">
+    <h1>VitalAssist by Commander Tech®</h1>
+  </header>
+
+  <div id="main-container">
+    <div id="chat-container">
+      <div id="messages"></div>
+
+      <div id="input-section">
+        <input type="text" id="userInput" placeholder="Type your message here..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+
+      <br/>
+      <label for="modeSelect"><strong>Mode:</strong></label>
+      <select id="modeSelect" onchange="updateMode()">
         <option value="general">General</option>
-        <option value="doctor">Doctor</option>
+        <option value="doctor-basic">Doctor - Basic</option>
+        <option value="doctor-intermediate">Doctor - Intermediate</option>
+        <option value="doctor-expert">Doctor - Expert</option>
       </select>
-      <div id="doctorLevels" style="display:none; margin-top: 1rem;">
-        <label for="levelSelect">👨‍⚕️ Doctor Level:</label>
-        <select id="levelSelect">
-          <option>Basic</option>
-          <option>Intermediate</option>
-          <option>Expert</option>
-        </select>
-      </div>
+
+      <br/><br/>
+      <button onclick="startRecording()">🎙 Start Voice</button>
+      <button onclick="stopRecording()">🛑 Stop Voice</button>
+      <button onclick="triggerFileUpload()">📄 Upload File</button>
+      <button onclick="showHealthTip()">💡 Health Tip</button>
+      <button onclick="clearChat()">🧹 Clear Chat</button>
+      <input type="file" id="fileInput" accept=".pdf, image/*" style="display:none" onchange="handleFile(event)">
     </div>
-    <div class="section">
-      <label>🌐 Language:</label>
-      <select>
-        <option>Auto Detect</option>
-        <option>English</option>
-        <option>Arabic</option>
-        <option>Persian</option>
-        <option>Hindi</option>
-        <option>Kurdish (Kurmanji)</option>
-        <option>Kurdish (Sorani)</option>
-      </select>
-    </div>
-    <div class="section">
-      <label for="userText">💬 Ask your question:</label>
-      <textarea id="userText" placeholder="Describe symptoms, ask about medicine, or request tips..."></textarea>
-      <button onclick="sendText()">Send</button>
-    </div>
-    <div class="section">
-      <label>🎤 Or speak:</label><br>
-      <button onclick="startRecording()">Start Recording</button>
-      <button onclick="stopRecording()">Stop Recording</button>
-    </div>
-    <div class="section">
-      <label>📄 Upload a document (optional):</label><br>
-      <input type="file" id="fileUpload">
-      <button onclick="uploadFile()">Upload</button>
-    </div>
-    <div class="tip-section">
-      <h3>💡 Health Tip of the Moment</h3>
-      <p id="healthTip"></p>
-    </div>
-    <div class="chat-wrapper">
-      <div id="transcriptBox">🧍 You: ...</div>
-      <div id="responseBox">🤖 VitalAssist: ...</div>
-      <div><label>🔊 Voice Reply:</label><br>
-        <audio id="audioPlayer" controls></audio>
-      </div>
-    </div>
-  </main>
-  <footer>
-    <p>VitalAssist by Commander Tech® &copy; 2025</p>
-    <p>
-      <a href="#">About</a> |
-      <a href="#">Privacy Policy</a> |
-      <a href="#">Terms</a> |
-      <a href="#">Contact</a>
-    </p>
-    <p>Version 2.0 – Trusted Worldwide</p>
-  </footer>
+
+    <img id="hero-image" src="hero-banner.png" alt="Welcome Image"/>
+  </div>
+
+  <footer>VitalAssist v2.0 SECURE — Powered by Commander Tech®</footer>
+
+  <script src="recorder.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(() => console.log('✅ Service worker registered'))
-        .catch(err => console.error('SW registration failed:', err));
-    }
-    function toggleDoctorLevels(value) {
-      document.getElementById("doctorLevels").style.display = value === "doctor" ? "block" : "none";
-    }
-    const tips = [
-      "Drink at least 8 glasses of water a day 💧",
-      "Get 7–8 hours of sleep every night 😴",
-      "Wash your hands often to prevent illness 🧼",
-      "Limit sugary drinks for better heart health ❤️",
-      "Take a short walk after meals to aid digestion 🚶",
-      "Practice deep breathing to reduce stress 🧘",
-      "Avoid smoking and limit alcohol 🍷🚫",
-      "Eat more colorful fruits and vegetables 🍎🥦",
-      "Stretch daily to maintain flexibility 🤸",
-      "Don’t skip breakfast — fuel your body 🍳",
-      "Protect your skin from excessive sun 🌞🧴",
-      "Check your blood pressure regularly 🩺",
-      "Balance screen time with outdoor time 🧠🌳",
-      "Keep emergency contacts updated ☎️",
-      "Don’t ignore mental health — talk about it 🧠💬",
-      "Keep a first-aid kit accessible 🚑",
-      "Laugh often — it boosts immunity 😂🛡️",
-      "Stay active even at home 🏡🏃",
-      "Take medications as prescribed 💊",
-      "Visit your doctor for annual checkups 🏥"
+    const messagesContainer = document.getElementById("messages");
+    let currentMode = "general";
+
+    const startupTips = [
+      "💧 Stay hydrated! Your body needs water every day.",
+      "🍎 Eat fruits daily to boost your immune system.",
+      "🧘 Breathe deeply to reduce stress and support your heart.",
+      "🏃 Move your body! Even 10 minutes helps your circulation.",
+      "🛌 Quality sleep is medicine. Aim for 7–9 hours nightly.",
+      "💊 Always finish your full course of prescribed antibiotics."
     ];
-    let currentTip = 0;
-    function rotateTip() {
-      document.getElementById("healthTip").innerText = tips[currentTip];
-      currentTip = (currentTip + 1) % tips.length;
+
+    function displayStartupTip() {
+      const tip = startupTips[Math.floor(Math.random() * startupTips.length)];
+      addMessage("VitalAssist Tip: " + tip, "assistant");
     }
-    rotateTip();
-    setInterval(rotateTip, 5000);
-    async function sendText() {
-      const text = document.getElementById("userText").value;
-      const formData = new FormData();
-      formData.append("text", text);
-      const res = await fetch("/process", { method: "POST", body: formData });
-      const data = await res.json();
-      document.getElementById("transcriptBox").innerText = `🧍 You: ${data.transcript || text}`;
-      document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
-      document.getElementById("audioPlayer").src = data.audio;
-      document.getElementById("audioPlayer").play();
+
+    function updateMode() {
+      currentMode = document.getElementById("modeSelect").value;
+      addMessage("Mode set to: " + currentMode.replace('-', ' '), "assistant");
     }
-    async function uploadFile() {
-      const fileInput = document.getElementById("fileUpload");
-      const formData = new FormData();
-      formData.append("file", fileInput.files[0]);
-      const res = await fetch("/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      document.getElementById("transcriptBox").innerText = `🧾 Extracted: ${data.extracted}`;
-      document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
-      document.getElementById("audioPlayer").src = data.audio;
-      document.getElementById("audioPlayer").play();
+
+    function addMessage(text, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${sender}`;
+      msgDiv.innerText = text;
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (text === "") return;
+      addMessage("You: " + text, "user");
+      input.value = "";
+
+      let response;
+      if (currentMode === "general") {
+        response = "VitalAssist: I'm here to help you with anything, Commander.";
+      } else if (currentMode === "doctor-basic") {
+        response = "VitalAssist 🩺 (Basic): This sounds like a common concern. You may try rest and fluids.";
+      } else if (currentMode === "doctor-intermediate") {
+        response = "VitalAssist 🩺 (Intermediate): Based on symptoms, here's a probable cause and care tip.";
+      } else if (currentMode === "doctor-expert") {
+        response = "VitalAssist 🩺 (Expert): Let's analyze this deeply and rule out any serious risk factors.";
+      }
+
+      setTimeout(() => {
+        addMessage(response, "assistant");
+      }, 1000);
+    }
+
+    function clearChat() {
+      messagesContainer.innerHTML = "";
+    }
+
+    function showHealthTip() {
+      const tip = startupTips[Math.floor(Math.random() * startupTips.length)];
+      addMessage("VitalAssist Tip: " + tip, "assistant");
+    }
+
+    function triggerFileUpload() {
+      document.getElementById("fileInput").click();
+    }
+
+    function handleFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      addMessage(`You uploaded: ${file.name}`, "user");
+      setTimeout(() => {
+        addMessage(`VitalAssist: Processing ${file.name}...`, "assistant");
+      }, 800);
     }
   </script>
 </body>
