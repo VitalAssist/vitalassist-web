@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VitalAssist by Commander Tech®</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- PWA Meta -->
   <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#007a7a"/>
+  <meta name="theme-color" content="#007a7a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="apple-touch-icon" href="/static/vitalassist-icon.png">
   <link rel="icon" type="image/png" href="/static/vitalassist-icon.png">
-
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -40,7 +37,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.08);
     }
     .section {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     label, select, textarea, button {
       font-size: 1rem;
@@ -73,33 +70,27 @@
       background-color: #005f5f;
     }
     .chat-box {
-      background-color: #eef8f6;
+      background: #f9fdfd;
       padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      margin-top: 2rem;
+      border-radius: 14px;
+      margin-top: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .chat-bubble {
-      background: #fff;
+    .chat-entry {
+      background: linear-gradient(to right, #e3fdfd, #f1fafe);
       padding: 1rem;
-      border-radius: 10px;
       margin-bottom: 1rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .chat-user {
-      background-color: #d1f7f2;
-      align-self: flex-start;
-    }
-    .chat-assistant {
-      background-color: #e8f0ff;
-      align-self: flex-end;
+      border-left: 6px solid #00b3b3;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .center-image {
       text-align: center;
-      margin: 1.5rem 0;
+      margin: 1rem 0;
     }
     .center-image img {
       max-width: 85%;
+      max-height: 250px;
       border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
@@ -123,12 +114,9 @@
 </head>
 <body>
   <header>🫀 VitalAssist – AI Health Companion by Commander Tech®</header>
-
   <div class="center-image">
     <img src="/static/commander-banner.png" alt="Welcome to VitalAssist">
-    <p style="font-size: 1.1rem; color: #007a7a;">Caring AI for Every Home – Your Partner in Health</p>
   </div>
-
   <main>
     <div class="section">
       <label for="modeSelect">🩺 Select Mode:</label>
@@ -145,7 +133,6 @@
         </select>
       </div>
     </div>
-
     <div class="section">
       <label>🌐 Language:</label>
       <select>
@@ -158,40 +145,34 @@
         <option>Kurdish (Sorani)</option>
       </select>
     </div>
-
     <div class="section">
       <label for="userText">💬 Ask your question:</label>
       <textarea id="userText" placeholder="Describe symptoms, ask about medicine, or request tips..."></textarea>
       <button onclick="sendText()">Send</button>
     </div>
-
     <div class="section">
       <label>🎤 Or speak:</label><br>
       <button onclick="startRecording()">Start Recording</button>
       <button onclick="stopRecording()">Stop Recording</button>
     </div>
-
     <div class="section">
       <label>📄 Upload a document (optional):</label><br>
       <input type="file" id="fileUpload">
       <button onclick="uploadFile()">Upload</button>
     </div>
-
     <div class="chat-box">
-      <div id="transcriptBox" class="chat-bubble chat-user">🧍 You: ...</div>
-      <div id="responseBox" class="chat-bubble chat-assistant">🤖 VitalAssist: ...</div>
-      <div style="margin-top:1rem;">
-        <label>🔊 Voice Reply:</label><br>
-        <audio id="audioPlayer" controls></audio>
+      <div id="chatArea" class="chat-entry">
+        <div id="transcriptBox">🧍 You: ...</div>
+        <div id="responseBox">🤖 VitalAssist: ...</div>
+        <div><label>🔊 Voice Reply:</label><br>
+        <audio id="audioPlayer" controls></audio></div>
       </div>
     </div>
-
     <div style="background: #eafff0; padding: 1rem; border-radius: 8px; margin-top: 2rem;">
       <h3>💡 Health Tip of the Moment</h3>
       <p id="healthTip" style="font-size: 1.05rem;"></p>
     </div>
   </main>
-
   <footer>
     <p>VitalAssist by Commander Tech® &copy; 2025</p>
     <p>
@@ -202,19 +183,15 @@
     </p>
     <p>Version 2.0 – Trusted Worldwide</p>
   </footer>
-
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then(() => console.log('✅ VitalAssist service worker registered'))
         .catch(err => console.error('Service Worker registration failed:', err));
     }
-
     function toggleDoctorLevels(value) {
-      document.getElementById("doctorLevels").style.display =
-        value === "doctor" ? "block" : "none";
+      document.getElementById("doctorLevels").style.display = value === "doctor" ? "block" : "none";
     }
-
     const tips = [
       "Drink at least 8 glasses of water a day 💧",
       "Get 7–8 hours of sleep every night 😴",
@@ -225,7 +202,7 @@
       "Avoid smoking and limit alcohol 🍷🚫",
       "Eat more colorful fruits and vegetables 🍎🥦",
       "Stretch daily to maintain flexibility 🤸",
-      "Don't skip breakfast — fuel your body 🍳",
+      "Don’t skip breakfast — fuel your body 🍳",
       "Protect your skin from excessive sun 🌞🧴",
       "Check your blood pressure regularly 🩺",
       "Balance screen time with outdoor time 🧠🌳",
@@ -237,7 +214,6 @@
       "Take medications as prescribed 💊",
       "Visit your doctor for annual checkups 🏥"
     ];
-
     let currentTip = 0;
     function rotateTip() {
       document.getElementById("healthTip").innerText = tips[currentTip];
@@ -245,29 +221,23 @@
     }
     rotateTip();
     setInterval(rotateTip, 5000);
-
     async function sendText() {
       const text = document.getElementById("userText").value;
       const formData = new FormData();
       formData.append("text", text);
-
       const res = await fetch("/process", { method: "POST", body: formData });
       const data = await res.json();
-
       document.getElementById("transcriptBox").innerText = `🧍 You: ${text}`;
       document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
       document.getElementById("audioPlayer").src = data.audio;
       document.getElementById("audioPlayer").play();
     }
-
     async function uploadFile() {
       const fileInput = document.getElementById("fileUpload");
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
-
       const res = await fetch("/upload", { method: "POST", body: formData });
       const data = await res.json();
-
       document.getElementById("transcriptBox").innerText = `🧾 Extracted: ${data.extracted}`;
       document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
       document.getElementById("audioPlayer").src = data.audio;
