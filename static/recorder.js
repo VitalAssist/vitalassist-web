@@ -1,40 +1,48 @@
-// static/recorder.js
+
 let mediaRecorder;
 let audioChunks = [];
 
-async function startRecording() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
+function startRecording() {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      audioChunks = [];
 
-    mediaRecorder.ondataavailable = event => {
+      mediaRecorder.addEventListener("dataavailable", event => {
         audioChunks.push(event.data);
-    };
+      });
 
-    mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+      mediaRecorder.addEventListener("stop", () => {
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
         const formData = new FormData();
-        formData.append('file', audioBlob, 'voice.wav');
+        formData.append("audio", audioBlob);
 
-        const res = await fetch("/transcribe", {
-            method: "POST",
-            body: formData
+        fetch("/voice", {
+          method: "POST",
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("transcriptBox").innerText = `🧍 You: ${data.transcript}`;
+          document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
+          document.getElementById("audioPlayer").src = data.audio;
+          document.getElementById("audioPlayer").play();
+        })
+        .catch(error => {
+          alert("Voice processing failed. Please try again.");
+          console.error("Voice error:", error);
         });
-
-        const data = await res.json();
-        document.getElementById("transcriptBox").innerText = data.transcript;
-        document.getElementById("responseBox").innerText = data.response;
-        document.getElementById("audioPlayer").src = data.audio;
-        document.getElementById("audioPlayer").play();
-    };
-
-    mediaRecorder.start();
-    console.log("🎙️ Recording started...");
+      });
+    })
+    .catch(err => {
+      alert("Microphone access denied.");
+      console.error("Mic error:", err);
+    });
 }
 
 function stopRecording() {
-    if (mediaRecorder) {
-        mediaRecorder.stop();
-        console.log("🛑 Recording stopped.");
-    }
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+  }
 }

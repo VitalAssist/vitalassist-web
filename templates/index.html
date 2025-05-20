@@ -14,7 +14,7 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #e6f9f7, #ffffff);
+      background: linear-gradient(to bottom, #f4ffff, #e3f7f7);
       margin: 0;
       padding: 0;
       color: #333;
@@ -28,9 +28,27 @@
       font-weight: 600;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+    .hero-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem;
+      max-width: 960px;
+      margin: 1rem auto;
+    }
+    .hero-text {
+      max-width: 50%;
+    }
+    .hero-img {
+      max-width: 40%;
+    }
+    .hero-img img {
+      max-width: 100%;
+      height: auto;
+    }
     main {
       max-width: 960px;
-      margin: 2rem auto;
+      margin: 1rem auto;
       padding: 2rem;
       background: white;
       border-radius: 12px;
@@ -69,16 +87,6 @@
     button:hover {
       background-color: #005f5f;
     }
-    .hero-banner {
-      text-align: center;
-      padding: 2rem;
-    }
-    .hero-banner img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
     .tip-section {
       background: #eafff0;
       padding: 1rem;
@@ -88,9 +96,9 @@
     .chat-wrapper {
       margin-top: 2rem;
       padding: 1rem;
-      background: linear-gradient(to bottom right, #f4fbff, #e9f7f8);
+      background: linear-gradient(to bottom right, #eef9ff, #e8f5f9);
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     .chat-wrapper div {
       margin-bottom: 0.75rem;
@@ -123,8 +131,14 @@
 </head>
 <body>
   <header>🫀 VitalAssist – AI Health Companion by Commander Tech®</header>
-  <div class="hero-banner">
-    <img src="/static/commander-banner.png" alt="VitalAssist Hero Image">
+  <div class="hero-section">
+    <div class="hero-text">
+      <h2>Welcome to VitalAssist</h2>
+      <p>Your AI-powered health companion – ask, speak, or upload.</p>
+    </div>
+    <div class="hero-img">
+      <img src="/static/commander-banner-transparent.png" alt="VitalAssist Doctor Illustration">
+    </div>
   </div>
   <main>
     <div class="section">
@@ -235,7 +249,7 @@
       formData.append("text", text);
       const res = await fetch("/process", { method: "POST", body: formData });
       const data = await res.json();
-      document.getElementById("transcriptBox").innerText = `🧍 You: ${text}`;
+      document.getElementById("transcriptBox").innerText = `🧍 You: ${data.transcript || text}`;
       document.getElementById("responseBox").innerText = `🤖 VitalAssist: ${data.response}`;
       document.getElementById("audioPlayer").src = data.audio;
       document.getElementById("audioPlayer").play();
